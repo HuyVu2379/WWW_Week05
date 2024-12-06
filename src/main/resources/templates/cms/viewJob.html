@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Job for Company</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+<body>
+<div class="container-fluid">
+    <h1 class="text-center">View Job for Company</h1>
+    <div class="mb-4">
+        <label class="form-label">Choose company:</label>
+        <select class="form-control" name="company" id="companySelect" onchange="selectCompany()">
+            <option value="" disabled selected>Select a company</option>
+            <option th:each="company : ${companies}"
+                    th:text="${company.compName}"
+                    th:value="${company.id}">Company
+            </option>
+        </select>
+    </div>
+    <div class="mx-2 my-4">
+        <table class="table table-bordered table-striped my-4">
+            <thead>
+            <tr>
+                <th>Job Description</th>
+                <th>Job Name</th>
+                <th>More Info</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody th:each="skill, iterStat : ${skills}">
+            <tr>
+                <td><span th:text="${skill.skillName}">Skill Name</span></td>
+                <td><span th:text="${skill.skillDescription}">Skill Description</span></td>
+                <input type="hidden" th:value="${skill.id}" id="skillId-${iterStat.index}">
+                <td>
+                    <select class="form-control" th:id="'skillLevel_' + ${skill.id}">
+                        <option value="0">Beginner</option>
+                        <option value="1">Advanced</option>
+                        <option value="2">Professional</option>
+                        <option value="3">Intermediate</option>
+                        <option value="4">Master</option>
+                    </select>
+                </td>
+                <td><input name="moreInfo" th:id="'moreInfo_' + ${skill.id}" class="form-control" type="text" placeholder="More info"></td>
+                <td>
+                    <button type="button" class="btn btn-success"
+                            th:id="'button_' + ${skill.id}"
+                            th:onclick="'toggleSkill(' + ${skill.id} + ', \'button_' + ${skill.id} + '\')'"
+                            th:text="'Add'">Add
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function selectCompany() {
+        const selectElement = document.getElementById("companySelect");
+        const companyId = selectElement.value;
+
+        if (companyId) {
+            // Redirect to the controller endpoint with the selected company ID
+            window.location.href = `/cms/company/${companyId}/listJob`;
+        }
+    }
+</script>
+</body>
+</html>
