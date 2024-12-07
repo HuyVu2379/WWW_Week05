@@ -7,4 +7,7 @@ import vuquochuy.week05_vuquochuy.backend.models.Candidate;
 
 @Repository
 public interface CandidateRepository extends JpaRepository<Candidate, Long> {
+    boolean existsByEmail(String email);
+
+    Candidate findByEmail(String email);
 }

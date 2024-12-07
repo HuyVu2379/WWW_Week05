@@ -25,6 +25,11 @@ public class CandidateController {
         model.addAttribute("candidates", candidateServices.findAll());
         return "candidates/candidates";
     }
+    @GetMapping("/candidate/home")
+    public String showHomePage(Model model) {
+//        model.addAttribute("candidates", candidateServices.findAll());
+        return "candidates/home";
+    }
 
     @GetMapping("/candidates")
     public String showCandidateListPaging(Model model,

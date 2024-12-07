@@ -38,6 +38,9 @@ dependencies {
     implementation 'com.neovisionaries:nv-i18n:1.29'
 //For database REST
     implementation 'org.springframework.data:spring-data-rest-core:4.1.4'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security
+    implementation 'org.springframework.boot:spring-boot-starter-security:3.4.0'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 }

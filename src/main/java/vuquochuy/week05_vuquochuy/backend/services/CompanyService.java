@@ -11,4 +11,6 @@ public interface CompanyService {
     public List<Company> getAllCompanies();
     public Optional<Company> findById(Long id);
 
+    public Optional<Company> findCompanyByEmail(String email);
+
 }

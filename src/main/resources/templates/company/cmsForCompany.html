@@ -29,7 +29,7 @@
 <body>
 <div class="container-fluid my-4">
     <h1 class="text-center">Company CMS</h1>
-    <form th:action="@{/cms/postjob}" method="post" th:object="${job}">
+    <form th:action="@{/templates/company/postjob}" method="post" th:object="${job}">
         <div class="mb-4">
             <label class="form-label">Choose company:</label>
             <select class="form-control" name="company">

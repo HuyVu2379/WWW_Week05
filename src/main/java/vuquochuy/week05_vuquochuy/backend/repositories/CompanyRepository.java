@@ -9,4 +9,7 @@ import java.util.List;
 
 @Repository
 public interface CompanyRepository extends JpaRepository<Company,Long> {
+    boolean existsByEmail(String email);
+
+    Company findByEmail(String email);
 }

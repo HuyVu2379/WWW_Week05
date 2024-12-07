@@ -11,6 +11,7 @@ import vuquochuy.week05_vuquochuy.backend.repositories.CandidateRepository;
 import vuquochuy.week05_vuquochuy.backend.services.CandidateServices;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CandidateServiceImpl implements CandidateServices {
@@ -26,5 +27,13 @@ public class CandidateServiceImpl implements CandidateServices {
     @Override
     public List<Candidate> findAll() {
         return candidateRepository.findAll();
+    }
+
+    @Override
+    public Optional<Candidate> findCandidateByEmail(String email) {
+        if (candidateRepository.existsByEmail(email)) {
+            return Optional.ofNullable(candidateRepository.findByEmail(email));
+        }
+        return Optional.empty();
     }
 }

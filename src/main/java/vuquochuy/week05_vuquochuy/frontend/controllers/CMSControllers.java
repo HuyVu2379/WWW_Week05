@@ -40,11 +40,11 @@ public class CMSControllers {
     }
 
 
-    @GetMapping("/cms")
+    @GetMapping("/company/cms")
     public String showCMS(Model model) {
         model.addAttribute("companies", companyService.getAllCompanies());
         model.addAttribute("skills", skillService.findAll());
-        return "cms/cmsForCompany";
+        return "company/cmsForCompany";
     }
 
     @PostMapping("/cms/postjob")
@@ -80,20 +80,20 @@ public class CMSControllers {
         model.addAttribute("companies", companyService.getAllCompanies());
         model.addAttribute("skills", skillService.findAll());
 
-        return "cms/cmsForCompany";
+        return "company/cmsForCompany";
     }
 
     @GetMapping("cms/company/{companyId}/listJob")
     public String showJobForCompany(@PathVariable Long companyId, Model model) {    
 
-        return "cms/viewJob";
+        return "company/viewJob";
     }
 
     @GetMapping("cms/viewJob")
     public String showJob(Model model) {
         model.addAttribute("companies", companyService.getAllCompanies());
         model.addAttribute("jobs", null);
-        return "cms/viewJob";
+        return "company/viewJob";
     }
 
 
