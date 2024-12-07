@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import vuquochuy.week05_vuquochuy.backend.models.Candidate;
+import vuquochuy.week05_vuquochuy.backend.models.CandidateSkill;
 import vuquochuy.week05_vuquochuy.backend.repositories.CandidateRepository;
 import vuquochuy.week05_vuquochuy.backend.services.CandidateServices;
 
@@ -35,5 +36,11 @@ public class CandidateServiceImpl implements CandidateServices {
             return Optional.ofNullable(candidateRepository.findByEmail(email));
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<CandidateSkill> getSkillOfCandidate(String candidate) {
+
+        return null;
     }
 }
