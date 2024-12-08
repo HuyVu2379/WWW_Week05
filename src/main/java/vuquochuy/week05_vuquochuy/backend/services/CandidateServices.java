@@ -17,5 +17,7 @@ public interface CandidateServices {
                                    String sortDirection);
     public List<Candidate> findAll();
     public Optional<Candidate> findCandidateByEmail(String email);
-    public List<CandidateSkill> getSkillOfCandidate(String candidate);
+    public List<CandidateSkill> getSkillOfCandidate(Long candidateId);
+    public Candidate findCandidateById(Long id);
+    public Candidate save(Candidate candidate);
 }

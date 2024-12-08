@@ -1,5 +1,6 @@
 package vuquochuy.week05_vuquochuy.frontend.controllers;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -38,22 +39,21 @@ public class LoginController {
     }
 
     @GetMapping("/default")
-    public String defaultAfterLogin(Authentication authentication, RedirectAttributes redirectAttributes) {
+    public String defaultAfterLogin(Authentication authentication, HttpSession session) {
         String username = authentication.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
 
         if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_CANDIDATE"))) {
             Optional<Candidate> candidate = candidateService.findCandidateByEmail(username);
             if (candidate.isPresent()) {
-                // Truyền thông tin candidate qua RedirectAttributes
-                redirectAttributes.addFlashAttribute("candidate", candidate.get());
+                session.setAttribute("candidate", candidate.get());
             }
             return "redirect:/candidate/home"; // Chuyển hướng đến trang dành cho Candidate
         } else if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_COMPANY"))) {
             Optional<Company> company = companyService.findCompanyByEmail(username);
-            if(company.isPresent()) {
-                // Truyền thông tin company qua RedirectAttributes
-                redirectAttributes.addFlashAttribute("company", company.get());
+            if (company.isPresent()) {
+                // Lưu thông tin Company vào session
+                session.setAttribute("company", company.get());
             }
             return "redirect:/company/cms"; // Chuyển hướng đến trang dành cho Company
         }

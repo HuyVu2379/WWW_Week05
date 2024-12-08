@@ -27,28 +27,39 @@
     </style>
 </head>
 <body>
-<div class="container-fluid my-4">
-    <h1 class="text-center">Company CMS</h1>
-    <form th:action="@{/templates/company/postjob}" method="post" th:object="${job}">
-        <div class="mb-4">
-            <label class="form-label">Choose company:</label>
-            <select class="form-control" name="company">
-                <option th:each="company : ${companies}"
-                        th:text="${company.compName}"
-                        th:value="${company.id}">Company
-                </option>
-            </select>
+<nav class="navbar navbar-expand-lg navbar-light bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">Company Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/jobs">My Jobs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="company/cms/viewJob">Company profile</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                Welcome, <span th:text="${ownerCompany.getCompName()}"></span>!
+            </span>
+            <a class="btn btn-outline-danger ms-3" href="/logout">Logout</a>
         </div>
-
+    </div>
+</nav>
+<div class="container-fluid">
+    <form th:action="@{company/postjob}" method="post" th:object="${job}">
         <div class="mx-2 my-4">
             <h2>Create job</h2>
             <div class="mb-3">
-                <label class="form-label">Job description</label>
-                <input class="form-control" type="text" name="jobDescription" placeholder="Enter job description">
-            </div>
-            <div class="mb-3">
                 <label class="form-label">Job Name</label>
                 <input class="form-control" type="text" name="jobName" placeholder="Enter job name">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Job description</label>
+                <input class="form-control" type="text" name="jobDescription" placeholder="Enter job description">
             </div>
             <table class="table table-bordered table-striped my-4">
                 <thead>

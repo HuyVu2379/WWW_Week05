@@ -35,16 +35,15 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(registry ->
-                        registry
-                                // Quyền truy cập công khai
-                                .requestMatchers("/register", "/login", "/").permitAll()
-                                // Quyền truy cập cho vai trò "user"
-                                .requestMatchers("/candidate/**").hasRole(CANDIDATE_ROLE)
-                                // Quyền truy cập cho vai trò "company"
-                                .requestMatchers("/company/**").hasRole(COMPANY_ROLE)
-                                // Mọi yêu cầu khác phải được xác thực
-                                .anyRequest().authenticated()
+                .authorizeHttpRequests(registry -> registry
+                        // Quyền truy cập công khai
+                        .requestMatchers("/register", "/login", "/").permitAll()
+                        // Quyền truy cập cho vai trò "user"
+                        .requestMatchers("/candidate/**").hasRole(CANDIDATE_ROLE)
+                        // Quyền truy cập cho vai trò "company"
+                        .requestMatchers("/company/**").hasRole(COMPANY_ROLE)
+                        // Mọi yêu cầu khác phải được xác thực
+                        .anyRequest().authenticated()
                 )
                 .formLogin(formLoginConfigurer -> formLoginConfigurer
                         .loginPage("/login") // Trang login
@@ -57,7 +56,13 @@ public class SecurityConfiguration {
                         .clearAuthentication(true)
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/login?logout").permitAll()
+                )
+                .csrf(csrf -> csrf.disable()) // Tat CSRF
+                .sessionManagement(session -> session
+                        .maximumSessions(1) // Hạn chế mỗi tài khoản chỉ đăng nhập được một nơi
                 );
+
         return http.build();
     }
+
 }

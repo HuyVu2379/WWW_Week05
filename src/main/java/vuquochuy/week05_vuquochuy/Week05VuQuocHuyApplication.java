@@ -20,10 +20,10 @@ public class Week05VuQuocHuyApplication {
     public static void main(String[] args) {
         SpringApplication.run(Week05VuQuocHuyApplication.class, args);
     }
-    @Autowired
-    private CandidateRepository candidateRepository;
-    @Autowired
-    private AddressRepository addressRepository;
+//    @Autowired
+//    private CandidateRepository candidateRepository;
+//    @Autowired
+//    private AddressRepository addressRepository;
 //    @Bean
 //    CommandLineRunner initData() {
 //        return args -> {

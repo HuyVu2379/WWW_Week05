@@ -2,6 +2,7 @@ package vuquochuy.week05_vuquochuy.frontend.controllers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,13 +42,14 @@ public class CMSControllers {
 
 
     @GetMapping("/company/cms")
-    public String showCMS(Model model) {
-        model.addAttribute("companies", companyService.getAllCompanies());
+    public String showCMS(Model model, HttpSession session) {
+        Company company = (Company) session.getAttribute("company");
+        model.addAttribute("ownerCompany", company);
         model.addAttribute("skills", skillService.findAll());
         return "company/cmsForCompany";
     }
 
-    @PostMapping("/cms/postjob")
+    @PostMapping("/company/cms/postjob")
     public String postJob(
             @RequestParam("company") String company,
             @RequestParam("jobDescription") String jobDescription,
@@ -89,9 +91,10 @@ public class CMSControllers {
         return "company/viewJob";
     }
 
-    @GetMapping("cms/viewJob")
-    public String showJob(Model model) {
-        model.addAttribute("companies", companyService.getAllCompanies());
+    @GetMapping("company/cms/viewJob")
+    public String showJob(Model model,HttpSession session) {
+        Company company = (Company) session.getAttribute("company");
+        model.addAttribute("ownerCompany", company);
         model.addAttribute("jobs", null);
         return "company/viewJob";
     }
