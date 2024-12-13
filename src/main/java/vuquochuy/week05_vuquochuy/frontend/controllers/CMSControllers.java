@@ -12,10 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vuquochuy.week05_vuquochuy.backend.enums.SkillLevel;
 import vuquochuy.week05_vuquochuy.backend.models.*;
-import vuquochuy.week05_vuquochuy.backend.services.Impl.CompanyServiceImpl;
-import vuquochuy.week05_vuquochuy.backend.services.Impl.JobServiceImpl;
-import vuquochuy.week05_vuquochuy.backend.services.Impl.JobSkillServiceImpl;
-import vuquochuy.week05_vuquochuy.backend.services.Impl.SkillServiceImpl;
+import vuquochuy.week05_vuquochuy.backend.services.Impl.*;
 
 import java.time.LocalDate;
 import java.util.Collections;
@@ -35,6 +32,8 @@ public class CMSControllers {
     private SkillServiceImpl skillService;
     @Autowired
     private final ObjectMapper objectMapper;
+    @Autowired
+    private ApplicationImpl applicationService;
 
     public CMSControllers(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -123,7 +122,6 @@ public class CMSControllers {
     }
 
 
-
     @GetMapping("company/cms/viewJob")
     public String showJob(Model model, HttpSession session) {
         Company company = (Company) session.getAttribute("company");
@@ -135,15 +133,21 @@ public class CMSControllers {
     @GetMapping("company/cms/company-profile")
     public String showCompanyProfile(Model model, HttpSession session) {
         Company company = (Company) session.getAttribute("company");
+        Company company1 = companyService.findById(company.getId()).get();
+        session.setAttribute("company", company1);
         model.addAttribute("jobs", jobService.getJobForCompany(company.getId()));
-        model.addAttribute("ownerCompany", company);
+        model.addAttribute("ownerCompany", company1);
         return "company/company-profile";
     }
 
     @GetMapping("company/cms/viewCandidate")
-    public String showCandidate(Model model, HttpSession session) {
+    public String showCandidate(Model model, HttpSession session,
+                                @RequestParam("jobId") long jobId) {
         Company company = (Company) session.getAttribute("company");
+        List<Application> applications = applicationService.getCandidateApplications(jobId);
         model.addAttribute("ownerCompany", company);
+        model.addAttribute("applications", applications);
+        model.addAttribute("job", jobService.getJobById(jobId));
         return "company/viewCandidate";
     }
 

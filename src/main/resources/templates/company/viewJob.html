@@ -24,9 +24,9 @@
                 <td th:text="${iterStat.index + 1}">1</td>
                 <td><span th:text="${job.getJobName()}">Skill Name</span></td>
                 <td><span th:text="${job.getJobDesc()}">Skill Description</span></td>
-                <input type="hidden" th:value="${job.getId()}" id="skillId-${iterStat.index}">
+                <input name="jobId" type="hidden" th:value="${job.getId()}" id="skillId-${iterStat.index}">
                 <td>
-                    <a class="btn btn-primary" href="/company/cms/viewCandidate">View Candidate</a>
+                    <a class="btn btn-primary" th:href="@{/company/cms/viewCandidate(jobId=${job.getId()})}">View Candidate</a>
                 </td>
             </tr>
             </tbody>

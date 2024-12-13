@@ -3,10 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>View Candidate</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <div class="container-fluid">
-    <h1 class="text-center" th:text="${ownerCompany.getCompName()}"></h1>
+    <h1 class="text-center my-4" th:text="${ownerCompany.getCompName()}"></h1>
+    <h1 class="text-center my-4" th:text="${job.getJobName()}"></h1>
     <div class="mx-2 my-4">
         <table class="table table-bordered table-striped my-4">
             <thead>
@@ -16,16 +19,19 @@
                 <th>Full name</th>
                 <th>Phone</th>
                 <th>Date of birthday</th>
+                <th>Action</th>
             </tr>
             </thead>
-            <tbody th:each="job, iterStat : ${jobs}">
+            <tbody th:each="app, iterStat : ${applications}">
             <tr>
                 <td th:text="${iterStat.index + 1}">1</td>
-                <td><span th:text="${job.getJobName()}">Skill Name</span></td>
-                <td><span th:text="${job.getJobDesc()}">Skill Description</span></td>
-                <input type="hidden" th:value="${job.getId()}" id="skillId-${iterStat.index}">
+                <td><span th:text="${app.getCandidate().getEmail()}">Candidate Email</span></td>
+                <td><span th:text="${app.getCandidate().getFullName()}">Candidate Name</span></td>
+                <td><span th:text="${app.getCandidate().getPhone()}">Candidate phone</span></td>
+                <td><span th:text="${app.getCandidate().getDob()}">Candidate dob</span></td>
+                <input type="hidden" th:value="${app.getCandidate().getId()}" id="candidateId-${iterStat.index}">
                 <td>
-                    <a class="btn btn-primary" href="/company/cms/viewCandidate">View Candidate</a>
+                    <a class="btn btn-primary" href="/company/cms/viewCandidate">Send email</a>
                 </td>
             </tr>
             </tbody>

@@ -11,6 +11,7 @@ import vuquochuy.week05_vuquochuy.backend.repositories.CandidateRepository;
 import vuquochuy.week05_vuquochuy.backend.repositories.JobRepository;
 import vuquochuy.week05_vuquochuy.backend.services.ApplicationService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +34,11 @@ public class ApplicationImpl implements ApplicationService {
             return Optional.of(application);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Application> getCandidateApplications(long jobId) {
+        return applicationRepository.findByJob_Id(jobId);
     }
 
 }
