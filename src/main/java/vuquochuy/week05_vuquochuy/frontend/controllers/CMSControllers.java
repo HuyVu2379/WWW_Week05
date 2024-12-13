@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import vuquochuy.week05_vuquochuy.backend.enums.SkillLevel;
 import vuquochuy.week05_vuquochuy.backend.models.Company;
 import vuquochuy.week05_vuquochuy.backend.models.Job;
 import vuquochuy.week05_vuquochuy.backend.models.JobSkill;
@@ -51,39 +52,51 @@ public class CMSControllers {
 
     @PostMapping("/company/cms/postjob")
     public String postJob(
-            @RequestParam("company") String company,
+            @RequestParam("companyId") Long companyId,
             @RequestParam("jobDescription") String jobDescription,
             @RequestParam("jobName") String jobName,
             @RequestParam("skillsNeed") String skillsNeedJson,
             Model model
     ) {
         try {
-            Company companyFind = companyService.findById(Long.parseLong(company))
+            // Tìm kiếm công ty
+            Company ownerCompany = companyService.findById(companyId)
                     .orElseThrow(() -> new RuntimeException("Company not found"));
-            Job job = new Job(jobDescription, jobName, companyFind);
+
+            // Tạo Job
+            Job job = new Job(jobDescription, jobName, ownerCompany);
             jobService.save(job);
             Long jobId = job.getId();
 
+            // Parse kỹ năng từ JSON
             List<Map<String, Object>> selectedSkills = parseSelectedSkills(skillsNeedJson);
-            System.out.println(selectedSkills);
             for (Map<String, Object> skill : selectedSkills) {
                 Long skillId = Long.parseLong(skill.get("id").toString());
                 JobSkillId jobSkillId = new JobSkillId(jobId, skillId);
+                int skillLevelCode = Integer.parseInt(skill.get("level").toString());
+                SkillLevel skillLevel = SkillLevel.fromCode(skillLevelCode);
+                System.out.println(skillLevel);
                 JobSkill jobSkill = new JobSkill(
                         jobSkillId,
                         skill.get("moreInfo").toString(),
-                        Byte.parseByte(skill.get("level").toString())
+                        skillLevel
                 );
                 jobSkillService.save(jobSkill);
             }
+
+            // Đưa dữ liệu cần thiết vào model để hiển thị lại form
+            model.addAttribute("ownerCompany", ownerCompany);
+            model.addAttribute("skills", skillService.findAll());
         } catch (Exception e) {
             e.printStackTrace();
         }
-        model.addAttribute("companies", companyService.getAllCompanies());
-        model.addAttribute("skills", skillService.findAll());
 
-        return "company/cmsForCompany";
+        // Trả về template với dữ liệu đầy đủ
+        return "redirect:/company/cms/viewJob";
+
     }
+
+
 
     @GetMapping("cms/company/{companyId}/listJob")
     public String showJobForCompany(@PathVariable Long companyId, Model model) {    
@@ -94,11 +107,16 @@ public class CMSControllers {
     @GetMapping("company/cms/viewJob")
     public String showJob(Model model,HttpSession session) {
         Company company = (Company) session.getAttribute("company");
+        model.addAttribute("jobs",jobService.getJobForCompany(company.getId()));
         model.addAttribute("ownerCompany", company);
-        model.addAttribute("jobs", null);
         return "company/viewJob";
     }
-
+    @GetMapping("company/cms/viewCandidate")
+    public String showCandidate(Model model,HttpSession session) {
+        Company company = (Company) session.getAttribute("company");
+        model.addAttribute("ownerCompany", company);
+        return "company/viewCandidate";
+    }
 
     private List<Map<String, Object>> parseSelectedSkills(String skillsNeed) {
         try {

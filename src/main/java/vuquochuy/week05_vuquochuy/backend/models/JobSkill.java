@@ -3,6 +3,7 @@ package vuquochuy.week05_vuquochuy.backend.models;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import vuquochuy.week05_vuquochuy.backend.enums.SkillLevel;
 
 @Getter
 @Setter
@@ -15,9 +16,10 @@ public class JobSkill {
     private String moreInfos;
 
     @Column(name = "skill_level", nullable = false)
-    private Byte skillLevel;
+    @Enumerated(EnumType.STRING)
+    private SkillLevel skillLevel;
 
-    public JobSkill(JobSkillId id, String moreInfos, Byte skillLevel) {
+    public JobSkill(JobSkillId id, String moreInfos, SkillLevel skillLevel) {
         this.id = id;
         this.moreInfos = moreInfos;
         this.skillLevel = skillLevel;

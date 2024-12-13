@@ -20,7 +20,7 @@
         }
 
         .profile-container {
-            max-width: 600px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 20px;
             background-color: #ffffff;
@@ -35,6 +35,24 @@
         .profile-label {
             font-weight: bold;
             color: #495057;
+        }
+
+        .skills-section {
+            margin-top: 30px;
+        }
+
+        .skills-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .skills-list li {
+            padding: 8px;
+            border: 1px solid #dee2e6;
+            border-radius: 4px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
         }
     </style>
 </head>
@@ -88,7 +106,87 @@
             </div>
         </div>
     </form>
+
+    <div class="skills-section">
+        <h2>My Skills</h2>
+        <ul class="skills-list">
+            <li th:each="skill,iStat : ${skillOfCandidate}">
+                <div>
+                    <span th:text="${skill.getSkillName()}"></span>
+                    <span class="badge bg-primary" th:text="${skillLevelOfCandidate[iStat.index].getSkillLevel()}"></span>
+                </div>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editSkillModal' + ${iStat.index}">
+                    Edit
+                </button>
+
+                <!-- Modal -->
+                <div class="modal fade" th:id="'editSkillModal' + ${iStat.index}" tabindex="-1"
+                     aria-labelledby="editSkillLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="editSkillLabel">Edit Skill</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <form action="/candidate/updateSkill" method="post">
+                                <div class="modal-body">
+                                    <input type="hidden" name="skillId" th:value="${skill.getId()}">
+                                    <input type="hidden" name="candidateId" th:value="${candidate.getId()}">
+                                    <label>More information:</label>
+                                    <input class="form-control" type="text" name="more_information">
+                                    <div class="mb-3">
+                                        <label for="skillLevel" class="form-label">Skill Level</label>
+                                        <select class="form-select" name="skillLevel" id="skillLevel">
+                                            <option th:value="0">
+                                                BEGINNER
+                                            </option>
+                                            <option th:value="1">
+                                                ADVANCED
+                                            </option>
+                                            <option th:value="2">
+                                                PROFESSIONAL
+                                            </option>
+                                            <option th:value="3">
+                                                INTERMEDIATE
+                                            </option>
+                                            <option th:value="4">
+                                                MASTER
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                                    </button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Suggested Skills -->
+    <div class="skills-section">
+        <h2>Suggested Skills to Learn</h2>
+        <ul class="skills-list">
+            <li th:each="skill : ${skillNeeds}">
+                <span th:text="${skill.skillName}"></span>
+                <form action="/candidate/learnSkill" method="post" style="display:inline-block; margin-left: 20px;">
+                    <input type="hidden" name="skillId" th:value="${skill.id}">
+                    <input type="hidden" name="candidateId" th:value="${candidate.getId()}">
+                    <button type="submit" class="btn btn-success btn-sm">Learn</button>
+                </form>
+            </li>
+        </ul>
+    </div>
 </div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

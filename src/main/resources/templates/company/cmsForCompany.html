@@ -36,10 +36,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" href="/jobs">My Jobs</a>
+                    <a class="nav-link" href="/company/cms/viewJob">My Jobs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="company/cms/viewJob">Company profile</a>
+                    <a class="nav-link" href="/cms/viewJob">Company profile</a>
                 </li>
             </ul>
             <span class="navbar-text">
@@ -50,7 +50,8 @@
     </div>
 </nav>
 <div class="container-fluid">
-    <form th:action="@{company/postjob}" method="post" th:object="${job}">
+    <form th:action="@{/company/cms/postjob}" method="post" th:object="${job}">
+        <input type="hidden" name="companyId" th:value="${ownerCompany.getId()}"/>
         <div class="mx-2 my-4">
             <h2>Create job</h2>
             <div class="mb-3">

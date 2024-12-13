@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <title>View Candidate</title>
 </head>
 <body>
-$END$
+<div class="container-fluid">
+    <h1 class="text-center" th:text="${ownerCompany.getCompName()}"></h1>
+    <div class="mx-2 my-4">
+        <table class="table table-bordered table-striped my-4">
+            <thead>
+            <tr>
+                <th>STT</th>
+                <th>Email</th>
+                <th>Full name</th>
+                <th>Phone</th>
+                <th>Date of birthday</th>
+            </tr>
+            </thead>
+            <tbody th:each="job, iterStat : ${jobs}">
+            <tr>
+                <td th:text="${iterStat.index + 1}">1</td>
+                <td><span th:text="${job.getJobName()}">Skill Name</span></td>
+                <td><span th:text="${job.getJobDesc()}">Skill Description</span></td>
+                <input type="hidden" th:value="${job.getId()}" id="skillId-${iterStat.index}">
+                <td>
+                    <a class="btn btn-primary" href="/company/cms/viewCandidate">View Candidate</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </body>
 </html>

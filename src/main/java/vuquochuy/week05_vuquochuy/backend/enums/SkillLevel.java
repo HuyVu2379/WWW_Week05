@@ -7,7 +7,14 @@ public enum SkillLevel {
     SkillLevel(int code) {
         this.code = code;
     }
-
+    public static SkillLevel fromCode(int code) {
+        for (SkillLevel level : SkillLevel.values()) {
+            if (level.getCode() == code) {
+                return level;
+            }
+        }
+        throw new IllegalArgumentException("Invalid SkillLevel code: " + code);
+    }
     public int getCode() {
         return code;
     }

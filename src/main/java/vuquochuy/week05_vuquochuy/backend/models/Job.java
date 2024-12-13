@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import vuquochuy.week05_vuquochuy.backend.models.Company;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -24,6 +26,7 @@ public class Job {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company")
     private Company company;
+
 
     public Job(String jobDesc, String jobName, Company company) {
         this.jobDesc = jobDesc;

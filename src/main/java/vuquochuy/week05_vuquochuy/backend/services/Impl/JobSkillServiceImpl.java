@@ -6,6 +6,8 @@ import vuquochuy.week05_vuquochuy.backend.models.JobSkill;
 import vuquochuy.week05_vuquochuy.backend.repositories.JobSkillRepository;
 import vuquochuy.week05_vuquochuy.backend.services.JobSkillService;
 
+import java.util.List;
+
 @Service
 public class JobSkillServiceImpl implements JobSkillService {
     @Autowired
@@ -18,5 +20,10 @@ public class JobSkillServiceImpl implements JobSkillService {
     @Override
     public JobSkill addSkillForJob(JobSkill jobSkill) {
         return jobSkillRepository.save(jobSkill);
+    }
+
+    @Override
+    public List<JobSkill> getSkillByJobId(Long jobId) {
+        return jobSkillRepository.findById_JobId(jobId);
     }
 }
