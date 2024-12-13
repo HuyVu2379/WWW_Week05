@@ -12,5 +12,6 @@ public interface CompanyService {
     public Optional<Company> findById(Long id);
 
     public Optional<Company> findCompanyByEmail(String email);
+    public Company save(Company company);
 
 }

@@ -155,8 +155,6 @@ public class CandidateController {
             @RequestParam("phone") String phone,
             @RequestParam("dob") String dob) {
         Optional<Candidate> candidateOpt = Optional.ofNullable(candidateServices.findCandidateById(id));
-        System.out.println("id: " + id);
-        System.out.println("fullname: " + fullName);
         if (candidateOpt.isPresent()) {
             Candidate candidate = candidateOpt.get();
             candidate.setFullName(fullName);
@@ -165,7 +163,7 @@ public class CandidateController {
             Candidate can = candidateServices.save(candidate);
             return "redirect:/candidate/home"; // Chuyển hướng về trang home
         }
-        return "candidates/user-profile"; // Hiển thị trang lỗi nếu không tìm thấy
+        return "candidates/user-profile";
     }
 
     @PostMapping("/candidate/learnSkill")

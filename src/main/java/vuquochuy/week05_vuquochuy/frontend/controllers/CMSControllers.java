@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import vuquochuy.week05_vuquochuy.backend.enums.SkillLevel;
-import vuquochuy.week05_vuquochuy.backend.models.Company;
-import vuquochuy.week05_vuquochuy.backend.models.Job;
-import vuquochuy.week05_vuquochuy.backend.models.JobSkill;
-import vuquochuy.week05_vuquochuy.backend.models.JobSkillId;
+import vuquochuy.week05_vuquochuy.backend.models.*;
 import vuquochuy.week05_vuquochuy.backend.services.Impl.CompanyServiceImpl;
 import vuquochuy.week05_vuquochuy.backend.services.Impl.JobServiceImpl;
 import vuquochuy.week05_vuquochuy.backend.services.Impl.JobSkillServiceImpl;
 import vuquochuy.week05_vuquochuy.backend.services.Impl.SkillServiceImpl;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 public class CMSControllers {
@@ -96,23 +95,53 @@ public class CMSControllers {
 
     }
 
+    @PostMapping("company/cms/update-company")
+    public String updateCompany(Model model, HttpSession session,
+                                @RequestParam("id") Long id,
+                                @RequestParam("name_comp") String name_comp,
+                                @RequestParam("phone") String phone,
+                                @RequestParam("about") String about,
+                                @RequestParam("web-url") String web_url) {
+        Optional<Company> companyOpt = companyService.findById(id);
+        if (companyOpt.isPresent()) {
+            Company company = companyOpt.get();
+            company.setCompName(name_comp);
+            company.setPhone(phone);
+            company.setAbout(about);
+            company.setWebUrl(web_url);
+            Company updatedCompany = companyService.save(company);
 
+            // Cập nhật lại session
+            session.setAttribute("ownerCompany", updatedCompany);
 
-    @GetMapping("cms/company/{companyId}/listJob")
-    public String showJobForCompany(@PathVariable Long companyId, Model model) {    
+            // Hoặc cập nhật lại model
+            model.addAttribute("ownerCompany", updatedCompany);
 
-        return "company/viewJob";
+            return "redirect:/company/cms"; // Chuyển hướng
+        }
+        return "company/company-profile";
     }
 
+
+
     @GetMapping("company/cms/viewJob")
-    public String showJob(Model model,HttpSession session) {
+    public String showJob(Model model, HttpSession session) {
         Company company = (Company) session.getAttribute("company");
-        model.addAttribute("jobs",jobService.getJobForCompany(company.getId()));
+        model.addAttribute("jobs", jobService.getJobForCompany(company.getId()));
         model.addAttribute("ownerCompany", company);
         return "company/viewJob";
     }
+
+    @GetMapping("company/cms/company-profile")
+    public String showCompanyProfile(Model model, HttpSession session) {
+        Company company = (Company) session.getAttribute("company");
+        model.addAttribute("jobs", jobService.getJobForCompany(company.getId()));
+        model.addAttribute("ownerCompany", company);
+        return "company/company-profile";
+    }
+
     @GetMapping("company/cms/viewCandidate")
-    public String showCandidate(Model model,HttpSession session) {
+    public String showCandidate(Model model, HttpSession session) {
         Company company = (Company) session.getAttribute("company");
         model.addAttribute("ownerCompany", company);
         return "company/viewCandidate";

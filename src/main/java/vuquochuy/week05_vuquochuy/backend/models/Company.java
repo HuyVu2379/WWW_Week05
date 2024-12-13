@@ -30,7 +30,7 @@ public class Company {
     @Column(name = "web_url")
     private String webUrl;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "address", nullable = false)
     private Address address;
 
