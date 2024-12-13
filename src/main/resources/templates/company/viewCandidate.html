@@ -30,8 +30,10 @@
                 <td><span th:text="${app.getCandidate().getPhone()}">Candidate phone</span></td>
                 <td><span th:text="${app.getCandidate().getDob()}">Candidate dob</span></td>
                 <input type="hidden" th:value="${app.getCandidate().getId()}" id="candidateId-${iterStat.index}">
+                <input type="hidden" name="jobId" th:value="${job.getId()}" id="jobId-${iterStat.index}">
                 <td>
-                    <a class="btn btn-primary" href="/company/cms/viewCandidate">Send email</a>
+                    <a class="btn btn-primary"
+                       th:href="@{/company/cms/sendEmail(candidateId=${app.getCandidate().getId()}, jobId=${job.getId()})}">Send email</a>
                 </td>
             </tr>
             </tbody>

@@ -34,6 +34,10 @@ public class CMSControllers {
     private final ObjectMapper objectMapper;
     @Autowired
     private ApplicationImpl applicationService;
+    @Autowired
+    private  CandidateServiceImpl candidateService;
+    @Autowired
+    private EmailServiceImpl emailService;
 
     public CMSControllers(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -149,6 +153,22 @@ public class CMSControllers {
         model.addAttribute("applications", applications);
         model.addAttribute("job", jobService.getJobById(jobId));
         return "company/viewCandidate";
+    }
+    @GetMapping("/company/cms/sendEmail")
+    public String sendEmail(@RequestParam("candidateId") long candidateId,@RequestParam("jobId") long jobId, Model model,HttpSession session) {
+        // Lấy thông tin của candidate từ candidateId
+        Candidate candidate = candidateService.findCandidateById(candidateId);
+        Job job = jobService.getJobById(jobId);
+        Company company = (Company) session.getAttribute("company");
+        // Cấu hình và gửi email
+        String subject = "Your Application Status";
+        String body = "Dear " + candidate.getFullName() + ",\n\nYour application for the position "
+                + job.getJobName() + " is being reviewed. We will get back to you soon.\n\nBest regards,\n"
+                + company.getCompName();
+
+        emailService.sendEmail(candidate.getEmail(), subject, body);
+        model.addAttribute("message", "Email sent successfully to " + candidate.getEmail());
+        return "redirect:/company/cms";
     }
 
     private List<Map<String, Object>> parseSelectedSkills(String skillsNeed) {
