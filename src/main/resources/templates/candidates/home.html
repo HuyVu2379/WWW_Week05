@@ -57,7 +57,7 @@
                 <td th:text="${job.jobName}">Job Name</td>
                 <td th:text="${job.jobDesc}">Job Description</td>
                 <td th:text="${job.company.compName}">Company Name</td>
-                <td><a th:href="@{/candidate/jobInformation/{id}(id=${job.id})}" class="btn btn-primary">View Job
+                <td><a th:href="@{/candidate/jobInformation/{id}(id=${job.id})}" class="text-primary">View Job
                     Information</a></td>
             </tr>
             </tbody>
@@ -65,12 +65,13 @@
 
         <!-- Pagination -->
         <div class="d-flex justify-content-center my-3" th:if="${jobPage.totalPages > 1}">
-        <span th:each="pageNumber : ${pageNumbers}" class="mx-1">
-            <a th:href="@{/candidate/jobs(size=${jobPage.size}, page=${pageNumber})}"
-               th:text="${pageNumber}"
-               th:classappend="${pageNumber == jobPage.number + 1} ? 'btn btn-primary' : 'btn btn-outline-primary'}"></a>
-        </span>
+    <span th:each="pageNumber : ${pageNumbers}" class="mx-1">
+        <a th:href="@{/candidate/home(size=${jobPage.size}, page=${pageNumber})}"
+           th:text="${pageNumber}"
+           th:classappend="${pageNumber == jobPage.number + 1} ? 'btn btn-primary' : 'btn btn-outline-primary'"></a>
+    </span>
         </div>
+
     </div>
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

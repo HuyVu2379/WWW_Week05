@@ -148,7 +148,7 @@ public class CMSControllers {
     public String showCandidate(Model model, HttpSession session,
                                 @RequestParam("jobId") long jobId) {
         Company company = (Company) session.getAttribute("company");
-        List<Application> applications = applicationService.getCandidateApplications(jobId);
+        List<Application> applications = applicationService.getCandidateApplicationsSubmitted(jobId);
         model.addAttribute("ownerCompany", company);
         model.addAttribute("applications", applications);
         model.addAttribute("job", jobService.getJobById(jobId));
@@ -167,6 +167,8 @@ public class CMSControllers {
                 + company.getCompName();
 
         emailService.sendEmail(candidate.getEmail(), subject, body);
+        //Sau khi send email, cập nhật trạng thái của application cho candidate
+        applicationService.approveApplication(candidateId, jobId);
         model.addAttribute("message", "Email sent successfully to " + candidate.getEmail());
         return "redirect:/company/cms";
     }

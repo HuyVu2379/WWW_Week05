@@ -37,8 +37,14 @@ public class ApplicationImpl implements ApplicationService {
     }
 
     @Override
-    public List<Application> getCandidateApplications(long jobId) {
-        return applicationRepository.findByJob_Id(jobId);
+    public List<Application> getCandidateApplicationsSubmitted(long jobId) {
+        return applicationRepository.findCandidateSubmitted(jobId);
+    }
+
+    @Override
+    public void approveApplication(long candidateId, long jobId) {
+        applicationRepository.approveApplication(candidateId, jobId);
+        return;
     }
 
 }

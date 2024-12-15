@@ -1,7 +1,7 @@
 package vuquochuy.week05_vuquochuy.backend.enums;
 
 public enum ApplyStatus {
-    SUBMITTED(0), RECEIVED(1);
+    SUBMITTED(0),APPROVED(1);
     private final int code;
 
     ApplyStatus(int code) {

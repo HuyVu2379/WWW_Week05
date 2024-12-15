@@ -10,5 +10,7 @@ import java.util.Optional;
 public interface ApplicationService {
     public Optional<Application> applyJob(long jobId, long candidateId);
 
-    public List<Application> getCandidateApplications(long jobId);
+    public List<Application> getCandidateApplicationsSubmitted(long jobId);
+
+    public void approveApplication(long candidateId, long jobId);
 }
