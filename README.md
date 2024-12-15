@@ -67,4 +67,18 @@
 - Ta có thể ứng tuyển công việc bằng cách nhấn vào nút Apply Job
 - Sau khi ứng tuyển, công việc sẽ được hiển thị trong danh sách công việc đã ứng tuyển
 ![img_16.png](img_16.png)
-4. 
+4. Xem tất cả các job
+![img_17.png](img_17.png)
+5. Quản lý thông tin cá nhân
+ ![img_18.png](img_18.png)
+- Hiển thị các skill đã học được:
+![img_19.png](img_19.png)
+- Có thể chỉnh sửa skill-level:
+![img_20.png](img_20.png)
+- Ví dụ skill Database Management, sau khi chỉnh sửa, thông tin sẽ được cập nhật
+![img_21.png](img_21.png)
+- Xem và có thể học các skill mới
+![img_22.png](img_22.png)
+- Ví dụ: học skill mới UI/UX Design
+![img_23.png](img_23.png)
+- Sau khi học xong, thông tin sẽ được cập nhật 
