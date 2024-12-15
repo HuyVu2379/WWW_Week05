@@ -2,7 +2,7 @@
 ## Họ tên: Vũ Quốc Huy
 ## Mã sinh viên: 21021491
 ## Tổng quan: 
-### Trang web cho phép công ty và người dung và doanh nghiệp sử dung để đăng tải và ứng tuyển việc làm
+### Trang web cho phép công ty và ứng viên và doanh nghiệp sử dung để đăng tải và ứng tuyển việc làm
 ## Công nghệ sử dụng:
 - **Java**: Ngôn ngữ lập trình chính.
 - **Spring Boot**: Framework phát triển ứng dụng Java.
